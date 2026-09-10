@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse Architect — Privacy Protocol</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #04070d;
+            --panel: #0b1220;
+            --line: rgba(61, 255, 138, 0.16);
+            --cyan: #00d4ff;
+            --green: #3dff8a;
+            --steel: #9eb0c8;
+            --text: #dce8f5;
+            --muted: #7f93ad;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: "Rajdhani", sans-serif;
+            background: var(--void);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(61, 255, 138, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(61, 255, 138, 0.035) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .frame { position: relative; z-index: 1; min-height: 100vh; }
+
+        header {
+            padding: 22px 6vw;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.16);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            background: rgba(4, 7, 13, 0.9);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .brand img { width: 40px; height: 40px; border-radius: 10px; }
+
+        .brand strong {
+            font-family: "Orbitron", sans-serif;
+            font-size: 12px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .brand small { display: block; color: var(--muted); letter-spacing: 0.12em; font-size: 11px; }
+
+        .links { display: flex; gap: 18px; align-items: center; }
+
+        .links a {
+            color: var(--cyan);
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+
+        .layout {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 48px 6vw 72px;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 36px;
+        }
+
+        aside {
+            position: sticky;
+            top: 24px;
+            align-self: start;
+            border: 1px solid var(--line);
+            background: var(--panel);
+            padding: 22px 18px;
+        }
+
+        aside p {
+            font-family: "Orbitron", sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            color: var(--green);
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        aside a {
+            display: block;
+            color: var(--steel);
+            text-decoration: none;
+            font-size: 15px;
+            padding: 7px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        aside a:hover { color: var(--green); }
+
+        .stamp {
+            margin-top: 18px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        h1 {
+            font-family: "Orbitron", sans-serif;
+            font-size: clamp(26px, 4vw, 40px);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .intro {
+            color: var(--steel);
+            font-size: 19px;
+            margin-bottom: 28px;
+            max-width: 640px;
+        }
+
+        .node {
+            border-left: 2px solid rgba(0, 212, 255, 0.35);
+            padding: 0 0 28px 22px;
+            position: relative;
+        }
+
+        .node::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--cyan);
+            box-shadow: 0 0 12px var(--cyan);
+            position: absolute;
+            left: -6px;
+            top: 6px;
+        }
+
+        .node:last-child { padding-bottom: 0; }
+
+        .tag {
+            font-family: "Orbitron", sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            color: var(--green);
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 22px;
+            margin: 4px 0 10px;
+            color: #fff;
+        }
+
+        p { margin-bottom: 10px; color: var(--steel); }
+
+        ul { margin: 8px 0 0 18px; color: var(--steel); }
+        li { margin-bottom: 6px; }
+
+        .callout {
+            margin-top: 12px;
+            padding: 14px 16px;
+            background: rgba(61, 255, 138, 0.06);
+            border: 1px solid rgba(61, 255, 138, 0.22);
+            color: var(--text);
+        }
+
+        footer {
+            border-top: 1px solid rgba(0, 212, 255, 0.16);
+            padding: 22px 6vw 36px;
+            color: var(--muted);
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        footer a { color: var(--cyan); text-decoration: none; }
+
+        @media (max-width: 820px) {
+            .layout { grid-template-columns: 1fr; }
+            aside { position: static; }
+        }
+    </style>
+</head>
+<body>
+<div class="frame">
+    <header>
+        <a class="brand" href="index.html">
+            <img src="assets/icon.jpg" alt="Pulse Architect icon">
+            <span>
+                <strong>Pulse Architect</strong>
+                <small>Privacy Protocol</small>
+            </span>
+        </a>
+        <div class="links">
+            <a href="index.html">Game Brief</a>
+            <a href="https://apps.apple.com/us/app/pulse-architect/id6808133004?uo=4">App Store</a>
+        </div>
+    </header>
+
+    <div class="layout">
+        <aside>
+            <p>Index</p>
+            <a href="#operator">01 Operator</a>
+            <a href="#local">02 Local Grid Data</a>
+            <a href="#signals">03 Signals We May Process</a>
+            <a href="#ads">04 Advertising Circuit</a>
+            <a href="#purpose">05 Why It Exists</a>
+            <a href="#share">06 Who Sees a Pulse</a>
+            <a href="#keep">07 Retention</a>
+            <a href="#young">08 Younger Players</a>
+            <a href="#rights">09 Your Controls</a>
+            <a href="#contact">10 Support Channel</a>
+            <div class="stamp">Effective: September 10, 2026<br>Applies to Pulse Architect on iOS</div>
+        </aside>
+
+        <main>
+            <h1>Privacy Protocol</h1>
+            <p class="intro">This notice explains how the Pulse Architect game handles information while you route energy across the circuit grid. It is written for this title only — not for an unrelated website or personal profile.</p>
+
+            <article class="node" id="operator">
+                <div class="tag">01 / Operator</div>
+                <h2>Who publishes this game</h2>
+                <p>Pulse Architect is a mobile circuit-puzzle product for iPhone and iPad. This protocol describes the game itself: local progress on your device, optional advertising technology that may run inside the session, and the support path on the App Store listing.</p>
+                <p>We do not ask you to create an account, and we do not publish a personal homepage, residential address, or private mailbox as a contact method.</p>
+            </article>
+
+            <article class="node" id="local">
+                <div class="tag">02 / On-Device Core</div>
+                <h2>What stays on your device</h2>
+                <p>Most of what you see in the HUD is stored locally so a session can resume:</p>
+                <ul>
+                    <li>Level index, remaining lives, and score</li>
+                    <li>Machine sequence progress (for example the next required node A, B, or C)</li>
+                    <li>Whether a timed path is open and which traces already carried a pulse</li>
+                    <li>Pause state and basic audio or interface preferences, if you change them</li>
+                </ul>
+                <p>Deleting the app removes this local grid state. It is not a cloud save and is not used to build a public profile.</p>
+            </article>
+
+            <article class="node" id="signals">
+                <div class="tag">03 / Signals</div>
+                <h2>Information the game may process</h2>
+                <p>Pulse Architect does not require your name, email, photos, contacts, or precise location to play. Depending on the build and your iOS permission choices, the following categories can be processed:</p>
+                <ul>
+                    <li><strong>Gameplay telemetry on device</strong> — win, fail, and sequence-miss events that keep lives and scoring honest</li>
+                    <li><strong>Device and app context</strong> — OS version, device type, language, and app version, used to keep the grid running on supported hardware</li>
+                    <li><strong>Advertising identifiers</strong> — such as the Identifier for Advertisers (IDFA) only if Apple’s App Tracking Transparency prompt is shown and you allow tracking</li>
+                    <li><strong>Network metadata</strong> — IP address and coarse region can be seen by advertising or delivery partners when an ad request leaves the device</li>
+                </ul>
+                <div class="callout">You can refuse tracking in the iOS prompt and later change it in Settings → Privacy &amp; Security. The puzzle remains playable either way.</div>
+            </article>
+
+            <article class="node" id="ads">
+                <div class="tag">04 / Advertising Circuit</div>
+                <h2>How ads may use data</h2>
+                <p>Pulse Architect is a free download. The session may display advertisements served by third-party advertising networks. Those partners can collect or receive limited technical data to choose, measure, and fight invalid traffic on an ad impression.</p>
+                <p>Typical advertising data includes a resettable advertising ID (when permitted), IP address, user-agent, approximate location derived from IP, and whether an ad was shown or tapped. Partners may also use cookies or similar identifiers in their own systems.</p>
+                <p>We do not sell a list of your puzzle solutions. We do not invent extra account data to enrich ads. Limit Ad Tracking / Allow Apps to Request to Track on iOS remains the primary switch for personalized advertising identifiers.</p>
+            </article>
+
+            <article class="node" id="purpose">
+                <div class="tag">05 / Purpose</div>
+                <h2>Why any of this is collected</h2>
+                <ul>
+                    <li>Operate the circuit puzzles, lives, and sequence tracker</li>
+                    <li>Show and measure advertisements that keep the free build available</li>
+                    <li>Diagnose crashes or compatibility issues on supported iOS versions</li>
+                    <li>Meet App Store, tax, and fraud-prevention obligations where they apply</li>
+                </ul>
+                <p>Where a legal basis framing is useful (for example GDPR-style language for EEA users), we rely on performance of the game you chose to install, legitimate interests in keeping a free title sustainable and secure, and consent where Apple or local law requires it for tracking.</p>
+            </article>
+
+            <article class="node" id="share">
+                <div class="tag">06 / Sharing</div>
+                <h2>Who may receive a signal</h2>
+                <p>Information is shared only in these categories — not as a public dump of your play history:</p>
+                <ul>
+                    <li><strong>Advertising and measurement networks</strong> that fill or count ad slots</li>
+                    <li><strong>Infrastructure providers</strong> that deliver the app binary through Apple’s store and update channel</li>
+                    <li><strong>Authorities</strong> if a lawful request requires it</li>
+                </ul>
+                <p>Apple also processes App Store purchase, download, and review activity under Apple’s own terms. Pulse Architect does not operate a separate social login or friend graph.</p>
+            </article>
+
+            <article class="node" id="keep">
+                <div class="tag">07 / Retention</div>
+                <h2>How long signals remain</h2>
+                <p>Local circuit progress remains until you delete the app or clear its data. Advertising and diagnostic records held by partners are kept only as long as their measurement, billing, or security cycles require — typically a short rolling window, not an indefinite player dossier.</p>
+                <p>If you reset the advertising identifier in iOS, future ad requests should use the new value. Past aggregated reports cannot always be rewritten.</p>
+            </article>
+
+            <article class="node" id="young">
+                <div class="tag">08 / Younger Players</div>
+                <h2>Children’s privacy</h2>
+                <p>The App Store age rating for Pulse Architect is 4+. The game does not ask children to type a name, upload a photo, or open a chat. We do not knowingly build a marketing profile of a child.</p>
+                <p>If you are a parent or guardian and believe a minor provided personal information through an ad partner surface, contact us through the App Store listing so we can review the report. This game is not intended as a social network or classroom roster.</p>
+            </article>
+
+            <article class="node" id="rights">
+                <div class="tag">09 / Controls</div>
+                <h2>Choices you can make</h2>
+                <ul>
+                    <li>Decline App Tracking Transparency if prompted</li>
+                    <li>Reset or limit the advertising identifier in iOS Settings</li>
+                    <li>Turn off network access for the app if you only want local play during a session (ads and updates may fail)</li>
+                    <li>Uninstall Pulse Architect to erase on-device grid data</li>
+                </ul>
+                <p>Depending on your region, you may also request access, correction, deletion, or a restriction of processing for personal data that we actually hold. Because most puzzle state never leaves the device, the practical first step is often deleting the app and resetting the advertising ID.</p>
+                <p>EEA, UK, and similar residents may have a right to lodge a complaint with a supervisory authority. California and other U.S. state residents may have rights to know, delete, or opt out of certain sharing for cross-context advertising; we honor those requests through the support channel below rather than through a personal inbox.</p>
+            </article>
+
+            <article class="node" id="contact">
+                <div class="tag">10 / Support &amp; Updates</div>
+                <h2>How to reach the product</h2>
+                <p>For privacy questions about Pulse Architect, use the support / report a problem controls on the official App Store page. Do not send physical mail or personal documents unless a formal legal process requires it.</p>
+                <p><a href="https://apps.apple.com/us/app/pulse-architect/id6808133004?uo=4" style="color:#00d4ff;">Open Pulse Architect on the App Store</a></p>
+                <p>If this protocol changes — for example a new ad partner category or a new type of diagnostic — we will update the date on this page. Continued use after a posted change means you have seen the new circuit map.</p>
+            </article>
+        </main>
+    </div>
+
+    <footer>
+        <span>Pulse Architect · Privacy Protocol · September 2026</span>
+        <span><a href="index.html">Return to the grid</a></span>
+    </footer>
+</div>
+</body>
+</html>
